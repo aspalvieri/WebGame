@@ -27,6 +27,10 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
 // set port, listen for requests
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
