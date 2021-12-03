@@ -1,10 +1,11 @@
 require("dotenv").config();
 
-const sslRedirect = require("heroku-ssl-redirect");
+const sslRedirect = require('heroku-ssl-redirect').default;
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const path = require("path");
 
 const users = require("./routes/users");
 
