@@ -5,6 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const cors = require("cors");
 const path = require("path");
 
 const users = require("./routes/users");
@@ -13,6 +14,7 @@ const app = express();
 
 //Heroku HTTPS redirect
 app.use(sslRedirect());
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
