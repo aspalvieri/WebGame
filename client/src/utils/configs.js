@@ -3,7 +3,7 @@ const configs = {
     SERVER_URI: 'http://localhost:5000',
   },
   production: {
-    SERVER_URI: 'HEROKU_URI',
+    SERVER_URI: 'https://aspalwebgame.herokuapp.com',
   },
 };
 
