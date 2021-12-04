@@ -19,11 +19,18 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(`${process.env.DB_TYPE}//${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_URL}`, {
+
+const env = process.env.NODE_ENV || "development";
+if (env == "test") {
+  process.env.DB_CONN = `${process.env.DB_TYPE}//${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_TEST_URL}`;
+} else {
+  process.env.DB_CONN = `${process.env.DB_TYPE}//${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_URL}`;
+}
+
+mongoose.connect(process.env.DB_CONN, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(err => console.log("Connected to MongoDB."))
-.catch(err => console.log(`ERROR: ${err}`));
+}).catch(err => console.log(`ERROR: ${err}`));
 
 // Passport middleware
 app.use(passport.initialize());
@@ -46,3 +53,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
+
+module.exports = { app };

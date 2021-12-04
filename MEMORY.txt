@@ -1,3 +1,0 @@
-remove USER_LOADING from redux, since the loading object isn't used anywhere
-OR
-refactor USER_LOADING to actually do something, like disable login form while loading
