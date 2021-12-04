@@ -16,7 +16,7 @@ class Register extends Component {
       errors: {}
     };
   }
-  
+
   componentDidMount() {
     // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
@@ -24,12 +24,15 @@ class Register extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
+  static getDerivedStateFromProps(props, state) {
+    if (props.errors) {
+      return {
+        errors: props.errors
+      };
     }
+
+    // Return null to indicate no change to state.
+    return null;
   }
 
   onChange = e => {
@@ -71,6 +74,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
+                  autoComplete="name"
                   id="name"
                   type="text"
                   className={classnames("", {
@@ -85,6 +89,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
+                  autoComplete="email"
                   id="email"
                   type="email"
                   className={classnames("", {
@@ -99,6 +104,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
+                  autoComplete="current-password"
                   id="password"
                   type="password"
                   className={classnames("", {
@@ -113,6 +119,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   value={this.state.password2}
                   error={errors.password2}
+                  autoComplete="new-password"
                   id="password2"
                   type="password"
                   className={classnames("", {

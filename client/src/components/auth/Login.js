@@ -11,6 +11,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      loading: false,
       errors: {}
     };
   }
@@ -22,15 +23,19 @@ class Login extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard"); // push user to dashboard when they login
+  static getDerivedStateFromProps(props, state) {
+    if (props.auth.isAuthenticated) {
+      props.history.push("/dashboard"); // push user to dashboard when they login
     }
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
+    if (props.errors) {
+      return {
+        errors: props.errors,
+        loading: false
+      };
     }
+
+    // Return null to indicate no change to state.
+    return null;
   }
 
   onChange = e => {
@@ -43,7 +48,8 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    this.setState({ loading: true });
+    this.props.loginUser(userData);
   };
 
   render() {
@@ -67,9 +73,11 @@ class Login extends Component {
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.loading ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
+                  autoComplete="email"
                   id="email"
                   type="email"
                   className={classnames("", {
@@ -84,9 +92,11 @@ class Login extends Component {
               </div>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.loading ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
+                  autoComplete="current-password"
                   id="password"
                   type="password"
                   className={classnames("", {

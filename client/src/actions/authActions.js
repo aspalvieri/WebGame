@@ -7,40 +7,36 @@ import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
-  axios
-    .post(`${config.SERVER_URI}/api/users/register`, userData)
-    .then(res => history.push("/login"))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+  axios.post(`${config.SERVER_URI}/api/users/register`, userData)
+  .then(res => history.push("/login"))
+  .catch(err => 
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  );
 };
 
 // Login - get user token
 export const loginUser = userData => dispatch => {
-  axios
-    .post(`${config.SERVER_URI}/api/users/login`, userData)
-    .then(res => {
-      // Save to localStorage
-
-      // Set token to localStorage
-      const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
-      // Set token to Auth header
-      setAuthToken(token);
-      // Decode token to get user data
-      const decoded = jwt_decode(token);
-      // Set current user
-      dispatch(setCurrentUser(decoded));
+  axios.post(`${config.SERVER_URI}/api/users/login`, userData)
+  .then(res => {
+    // Set token to localStorage
+    const { token } = res.data;
+    localStorage.setItem("jwtToken", token);
+    // Set token to Auth header
+    setAuthToken(token);
+    // Decode token to get user data
+    const decoded = jwt_decode(token);
+    // Set current user
+    dispatch(setCurrentUser(decoded));
+  })
+  .catch(err => 
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
     })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+  );
 };
 
 // Set logged in user
@@ -52,9 +48,10 @@ export const setCurrentUser = decoded => {
 };
 
 // User loading
-export const setUserLoading = () => {
+export const setUserLoading = value => {
   return {
-    type: USER_LOADING
+    type: USER_LOADING,
+    payload: value
   };
 };
 

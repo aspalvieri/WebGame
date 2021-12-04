@@ -2,7 +2,7 @@ import { GET_ERRORS } from "../actions/types";
 
 const initialState = {};
 
-export default function errorReduce(state = initialState, action) {
+export default function errorReducers(state = initialState, action) {
   switch (action.type) {
     case GET_ERRORS:
       return action.payload;

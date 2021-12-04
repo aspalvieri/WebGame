@@ -8,7 +8,7 @@ const initialState = {
   loading: false
 };
 
-export default function authReduce(state = initialState, action) {
+export default function authReducers(state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
       return {
@@ -19,7 +19,7 @@ export default function authReduce(state = initialState, action) {
     case USER_LOADING:
       return {
         ...state,
-        loading: true
+        loading: action.payload
       };
     default:
       return state;
