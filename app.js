@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const env = process.env.NODE_ENV || "development";
-if (env == "test") {
+if (env === "test") {
   process.env.DB_CONN = `${process.env.DB_TYPE}//${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_TEST_URL}`;
 } else {
   process.env.DB_CONN = `${process.env.DB_TYPE}//${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_URL}`;
@@ -41,8 +41,9 @@ require("./config/passport")(passport);
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 
-// Routes
-app.use("/api/users", users);
+// Our routes
+const routes = require("./routes/index");
+app.use("/api", routes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));

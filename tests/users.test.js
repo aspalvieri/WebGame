@@ -60,19 +60,6 @@ describe("Users", () => {
     });
   });
   describe("/api/users/login", () => {
-    it("it should login user (test@test.com)", (done) => {
-      let user = {
-        email: "test@test.com",
-        password: "123456"
-      };
-      chai.request(app).post("/api/users/login")
-      .send(user)
-      .end((err, res) => {
-        expect(res.status).to.eq(200);
-        expect(res.body.success).to.be.true;
-        done();
-      });
-    });
     it("it should NOT login user (password incorrect)", (done) => {
       let user = {
         email: "test@test.com",
@@ -99,5 +86,18 @@ describe("Users", () => {
         done();
       });
     });
-  })
+    it("it should login user (test@test.com)", (done) => {
+      let user = {
+        email: "test@test.com",
+        password: "123456"
+      };
+      chai.request(app).post("/api/users/login")
+      .send(user)
+      .end((err, res) => {
+        expect(res.status).to.eq(200);
+        expect(res.body.success).to.be.true;
+        done();
+      });
+    });
+  });
 });

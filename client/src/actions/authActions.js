@@ -3,12 +3,16 @@ import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { config } from "../utils/configs";
 
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios.post(`${config.SERVER_URI}/api/users/register`, userData)
-  .then(res => history.push("/login"))
+  .then(res => {
+    //Clear any errors on the screen
+    dispatch({ type: CLEAR_ERRORS });
+    history.push("/login");
+  })
   .catch(err => 
     dispatch({
       type: GET_ERRORS,
@@ -30,6 +34,8 @@ export const loginUser = userData => dispatch => {
     const decoded = jwt_decode(token);
     // Set current user
     dispatch(setCurrentUser(decoded));
+    //Clear any errors
+    dispatch({ type: CLEAR_ERRORS });
   })
   .catch(err => 
     dispatch({
