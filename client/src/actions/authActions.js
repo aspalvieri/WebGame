@@ -6,12 +6,12 @@ import { config } from "../utils/configs";
 import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, props) => dispatch => {
   axios.post(`${config.SERVER_URI}/api/users/register`, userData)
   .then(res => {
     //Clear any errors on the screen
     dispatch({ type: CLEAR_ERRORS });
-    history.push("/login");
+    props.history.push("/login");
   })
   .catch(err => 
     dispatch({

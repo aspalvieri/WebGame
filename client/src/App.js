@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
+        <BrowserRouter>
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Landing} />
@@ -50,7 +50,7 @@ class App extends Component {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </div>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
   }
