@@ -14,6 +14,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import { config } from "./utils/configs";
 
 import "./App.css";
 
@@ -31,7 +32,14 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     // Logout user
     store.dispatch(logoutUser());
-
+    // Redirect to login
+    window.location.href = "./login";
+  }
+  //Check for version mismatch
+  if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
+    localStorage.removeItem("VERSION");
+    // Logout user
+    store.dispatch(logoutUser());
     // Redirect to login
     window.location.href = "./login";
   }
