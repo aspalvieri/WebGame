@@ -1,19 +1,20 @@
 const chai = require("chai")
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
+const jwt_decode = require("jwt-decode");
 const { app } = require("../app");
 const User = require("../models/User")
 
 chai.use(chaiHttp);
 //Useful functions: before, beforeEach, after, afterEach
 
-describe("Users", () => {
+describe("/api/users", () => {
   before((done) => {
     User.deleteMany({}, (err) => {
       done();
     });
   });
-  describe("/api/users/register", () => {
+  describe("/register", () => {
     it("it should create a new user (test@test.com)", (done) => {
       let user = {
         name: "Test",
@@ -59,7 +60,7 @@ describe("Users", () => {
       });
     });
   });
-  describe("/api/users/login", () => {
+  describe("/login", () => {
     it("it should NOT login user (password incorrect)", (done) => {
       let user = {
         email: "test@test.com",
@@ -95,7 +96,7 @@ describe("Users", () => {
       .send(user)
       .end((err, res) => {
         expect(res.status).to.eq(200);
-        expect(res.body.success).to.be.true;
+        expect(jwt_decode(res.body.token).name).to.eq("Test");
         done();
       });
     });

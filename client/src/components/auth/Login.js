@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+import queryString from 'query-string';
 
 class Login extends Component {
   constructor() {
@@ -52,8 +53,22 @@ class Login extends Component {
     this.props.loginUser(userData);
   };
 
+  userRegistered(registered) {
+    if (registered === "true")
+      return (
+        <h5 style={{ backgroundColor: "#9CFFA2", color: "black",
+        padding: "10px", borderRadius: "5px", textAlign: "center",
+        boxShadow: "0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)" }}>
+          Your account has been successfully created.
+        </h5>
+      )
+    else
+      return (null);
+  }
+
   render() {
     const { errors } = this.state;
+    const getParams = queryString.parse(this.props.location.search)
     return (
       <div className="container">
         <div style={{ marginTop: "4rem" }} className="row">
@@ -63,6 +78,7 @@ class Login extends Component {
               home
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+            {this.userRegistered(getParams.registered)}
               <h4>
                 <b>Login</b> below
               </h4>

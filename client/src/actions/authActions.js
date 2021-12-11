@@ -11,7 +11,7 @@ export const registerUser = (userData, props) => dispatch => {
   .then(res => {
     //Clear any errors on the screen
     dispatch({ type: CLEAR_ERRORS });
-    props.history.push("/login");
+    props.history.push("/login?registered=true");
   })
   .catch(err => 
     dispatch({

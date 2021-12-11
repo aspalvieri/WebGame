@@ -67,7 +67,7 @@ exports.login = (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User matched
-        // Create JWT Payload
+        // Create JWT Payload, this data is stored in the token
         const payload = {
           id: user.id,
           name: user.name
