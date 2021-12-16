@@ -54,7 +54,7 @@ mongoose.connect(process.env.DB_CONN, {
 app.use(passport.initialize());
 
 // Passport config
-require("./config/passport")(passport);
+require("./middleware/passport")(passport);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));

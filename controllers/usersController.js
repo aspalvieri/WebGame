@@ -36,12 +36,6 @@ exports.register = (req, res) => {
           User.create(newUser)
             .then(user => res.json(user))
             .catch(err => console.log(err));
-          /*
-          newUser
-            .save()
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
-            */
         });
       });
     }
@@ -69,14 +63,13 @@ exports.login = (req, res) => {
         // User matched
         // Create JWT Payload, this data is stored in the token
         const payload = {
+          //Change values here to control what user object has on frontend
           id: user.id,
-          name: user.name
+          name: user.name,
+          character: user.character
         };
         // Sign token
-        jwt.sign(
-          payload,
-          process.env.secret,
-          {
+        jwt.sign(payload, process.env.secret, {
             expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
@@ -88,9 +81,7 @@ exports.login = (req, res) => {
         );
       } 
       else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
+        return res.status(400).json({ passwordincorrect: "Password incorrect" });
       }
     });
   });

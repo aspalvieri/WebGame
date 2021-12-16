@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { updateCharacter } from "./actions/charActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -16,37 +17,68 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import { config } from "./utils/configs";
 
-import "./App.css";
-
-// Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  const token = localStorage.jwtToken;
-  setAuthToken(token);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
-  //Check for version mismatch
-  if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
-    localStorage.removeItem("VERSION");
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
-}
+import "./scss/materialize.scss"; //materialize scss
+import "./scss/App.scss"; //App scss
+import "materialize-css"; //materialize js
 
 class App extends Component {
+  state = {
+    loading: true
+  }
+
+  async componentDidMount() {
+    if (localStorage.jwtToken) {
+      // Set auth token header auth
+      const token = localStorage.jwtToken;
+      setAuthToken(token);
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+      // Set user and isAuthenticated
+      store.dispatch(setCurrentUser(decoded));
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      if (decoded.exp < currentTime) {
+        // Logout user
+        store.dispatch(logoutUser());
+        // Redirect to login
+        window.location.href = "./login";
+      }
+      //Check for version mismatch
+      if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
+        localStorage.removeItem("VERSION");
+        // Logout user
+        store.dispatch(logoutUser());
+        // Redirect to login
+        window.location.href = "./login";
+      }
+      //Update character
+      store.dispatch(await updateCharacter(null));
+    }
+    this.setState({ loading: false });
+  }
+
   render() {
+    const loading = this.state.loading;
+
+    if (loading) {
+      return (
+        <div className="App">
+          <div style={{position: "absolute", top :0, left: 0, right: 0, bottom: 0, margin: "auto", width: "15em", height: "15em"}} 
+          className="preloader-wrapper active">
+            <div className="spinner-layer">
+              <div className="circle-clipper left">
+                <div style={{borderWidth: "12px"}} className="circle"></div>
+              </div><div className="gap-patch">
+                <div style={{borderWidth: "12px"}} className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div style={{borderWidth: "12px"}} className="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <Provider store={store}>
         <BrowserRouter>

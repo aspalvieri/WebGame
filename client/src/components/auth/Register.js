@@ -13,7 +13,8 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
-      errors: {}
+      errors: {},
+      load: false
     };
   }
 
@@ -24,13 +25,14 @@ class Register extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.errors) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    //If the error props changed, update and enable login button
+    if (nextProps.errors !== prevState.errors) {
       return {
-        errors: props.errors
+        errors: nextProps.errors,
+        load: false
       };
     }
-
     // Return null to indicate no change to state.
     return null;
   }
@@ -47,6 +49,7 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
+    this.setState({ load: true });
     this.props.registerUser(newUser, this.props);
   };
 
@@ -71,6 +74,7 @@ class Register extends Component {
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
@@ -86,6 +90,7 @@ class Register extends Component {
               </div>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -101,6 +106,7 @@ class Register extends Component {
               </div>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -116,6 +122,7 @@ class Register extends Component {
               </div>
               <div className="input-field col s12">
                 <input
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.password2}
                   error={errors.password2}
@@ -131,6 +138,7 @@ class Register extends Component {
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
+                  disabled={this.state.load ? "disabled" : ""}
                   style={{
                     width: "150px",
                     borderRadius: "3px",

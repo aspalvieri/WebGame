@@ -15,6 +15,20 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  character: {
+    inBattle: {
+      type: Boolean,
+      default: false
+    },
+    health: {
+      type: Number,
+      default: 200
+    },
+    maxHealth: {
+      type: Number,
+      default: 200
+    }
+  },
   date: {
     type: Date,
     default: Date.now

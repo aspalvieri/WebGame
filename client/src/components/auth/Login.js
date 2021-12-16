@@ -12,7 +12,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
+      load: false,
       errors: {}
     };
   }
@@ -24,17 +24,17 @@ class Login extends Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.auth.isAuthenticated) {
-      props.history.push("/dashboard"); // push user to dashboard when they login
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.auth.isAuthenticated) {
+      nextProps.history.push("/dashboard"); // push user to dashboard when they login
     }
-    if (props.errors) {
+    //If the error props changed, update and enable login button
+    if (nextProps.errors !== prevState.errors) {
       return {
-        errors: props.errors,
-        loading: false
+        errors: nextProps.errors,
+        load: false
       };
     }
-
     // Return null to indicate no change to state.
     return null;
   }
@@ -49,16 +49,15 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.setState({ loading: true });
+    this.setState({ load: true });
     this.props.loginUser(userData);
   };
 
   userRegistered(registered) {
     if (registered === "true")
       return (
-        <h5 style={{ backgroundColor: "#9CFFA2", color: "black",
-        padding: "10px", borderRadius: "5px", textAlign: "center",
-        boxShadow: "0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%)" }}>
+        <h5 style={{ padding: "10px", borderRadius: "5px", textAlign: "center" }}
+        className="green accent-2 z-depth-2">
           Your account has been successfully created.
         </h5>
       )
@@ -74,8 +73,7 @@ class Login extends Component {
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
+              <i className="material-icons left">keyboard_backspace</i> Back to home
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             {this.userRegistered(getParams.registered)}
@@ -89,7 +87,7 @@ class Login extends Component {
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
-                  disabled={this.state.loading ? "disabled" : ""}
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -108,7 +106,7 @@ class Login extends Component {
               </div>
               <div className="input-field col s12">
                 <input
-                  disabled={this.state.loading ? "disabled" : ""}
+                  disabled={this.state.load ? "disabled" : ""}
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -127,6 +125,7 @@ class Login extends Component {
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
+                  disabled={this.state.load ? "disabled" : ""}
                   style={{
                     width: "150px",
                     borderRadius: "3px",

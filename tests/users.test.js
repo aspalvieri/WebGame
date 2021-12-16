@@ -1,12 +1,13 @@
 const chai = require("chai")
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
-const jwt_decode = require("jwt-decode");
 const { app } = require("../app");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User")
 
 chai.use(chaiHttp);
 //Useful functions: before, beforeEach, after, afterEach
+//To set auth header put .auth(token, { type: "bearer" })  before the send
 
 describe("/api/users", () => {
   before((done) => {
@@ -96,7 +97,9 @@ describe("/api/users", () => {
       .send(user)
       .end((err, res) => {
         expect(res.status).to.eq(200);
-        expect(jwt_decode(res.body.token).name).to.eq("Test");
+        expect(res.body.token.startsWith("Bearer ")).to.be.true;
+        const user = jwt.verify(res.body.token.split(" ")[1], process.env.secret);
+        expect(user.name).to.eq("Test");
         done();
       });
     });
