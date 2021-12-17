@@ -7,6 +7,7 @@ const validateLoginInput = require("../validation/login");
 
 // Load User model
 const User = require("../models/User");
+const Character = require("../models/Character");
 
 exports.register = (req, res) => {
   // Form validation
@@ -22,22 +23,27 @@ exports.register = (req, res) => {
       return res.status(400).json({ email: "Email already exists" });
     } 
     else {
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      });
-
-      // Hash password before saving in database
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          User.create(newUser)
-            .then(user => res.json(user))
-            .catch(err => console.log(err));
+      Character.create(new Character({}))
+      .then(char => {
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+          character: char.id
         });
-      });
+
+        // Hash password before saving in database
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+              User.create(newUser)
+                .then(user => res.json(user))
+                .catch(err => console.log(err));
+          });
+        });
+      })
+      .catch(err => console.log(err));
     }
   });
 };
@@ -52,7 +58,7 @@ exports.login = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   // Find user by email
-  User.findOne({ email }).then(user => {
+  User.findOne({ email }).populate("character").then(user => {
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });

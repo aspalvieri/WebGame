@@ -16,18 +16,8 @@ const UserSchema = new Schema({
     required: true
   },
   character: {
-    inBattle: {
-      type: Boolean,
-      default: false
-    },
-    health: {
-      type: Number,
-      default: 200
-    },
-    maxHealth: {
-      type: Number,
-      default: 200
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "characters"
   },
   date: {
     type: Date,

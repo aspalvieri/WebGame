@@ -3,39 +3,43 @@ const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const { app } = require("../app");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User")
+const User = require("../models/User");
+const Character = require("../models/Character");
+const mongoose = require("mongoose");
 
 chai.use(chaiHttp);
 //Useful functions: before, beforeEach, after, afterEach
 //To set auth header put .auth(token, { type: "bearer" })  before the send
 
-describe("/api/characters", () => {
+describe("/characters", () => {
   //Create and log the user into a test account
   let user, token;
   before((done) => {
-    User.deleteMany({}, (err) => {
-      chai.request(app).post("/api/users/register")
-      .send({
-        name: "User",
-        email: "user@test.com",
-        password: "123456",
-        password2: "123456"
-      })
-      .end((err, res) => {
-        chai.request(app).post("/api/users/login")
+    Character.deleteMany({}, (err) => {
+      User.deleteMany({}, (err) => {
+        chai.request(app).post("/api/users/register")
         .send({
+          name: "User",
           email: "user@test.com",
-          password: "123456"
+          password: "123456",
+          password2: "123456"
         })
         .end((err, res) => {
-          token = res.body.token.split(" ")[1];
-          user = jwt.verify(token, process.env.secret);
-          done();
+          chai.request(app).post("/api/users/login")
+          .send({
+            email: "user@test.com",
+            password: "123456"
+          })
+          .end((err, res) => {
+            token = res.body.token.split(" ")[1];
+            user = jwt.verify(token, process.env.secret);
+            done();
+          });
         });
       });
     });
   });
-  describe("/index", () => {
+  describe("GET /", () => {
     it("it should NOT return the character for user (invalid token)", (done) => {
       chai.request(app).get("/api/characters")
       .auth("Invalid.JWT.Token", { type: "bearer" })

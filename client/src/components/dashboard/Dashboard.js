@@ -25,13 +25,14 @@ class Dashboard extends Component {
   render() {
     const { user } = this.props.auth;
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
+      <div className="container">
+        <div className="row valign-wrapper">
           <div className="col s12 center-align">
             <h4>Character Info</h4>
             <p className="flow-text">
-              <strong>Name: </strong>{user.name}<br/>
-              <strong>Health: </strong>{user.character.health}/{user.character.maxHealth}
+              <b>Name:</b> {user.name}<br/>
+              <b>Level:</b> {user.character.level}<br/>
+              <b>Health:</b> {user.character.health}/{user.character.maxHealth}
             </p>
             <p className="flow-text grey-text text-darken-1">
               <small>(version: {config.VERSION})</small>

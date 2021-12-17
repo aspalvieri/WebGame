@@ -3,19 +3,22 @@ const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const { app } = require("../app");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User")
+const User = require("../models/User");
+const Character = require("../models/Character");
 
 chai.use(chaiHttp);
 //Useful functions: before, beforeEach, after, afterEach
 //To set auth header put .auth(token, { type: "bearer" })  before the send
 
-describe("/api/users", () => {
+describe("/users", () => {
   before((done) => {
-    User.deleteMany({}, (err) => {
-      done();
+    Character.deleteMany({}, (err) => {
+      User.deleteMany({}, (err) => {
+        done();
+      });
     });
   });
-  describe("/register", () => {
+  describe("POST /register", () => {
     it("it should create a new user (test@test.com)", (done) => {
       let user = {
         name: "Test",
@@ -61,7 +64,7 @@ describe("/api/users", () => {
       });
     });
   });
-  describe("/login", () => {
+  describe("POST /login", () => {
     it("it should NOT login user (password incorrect)", (done) => {
       let user = {
         email: "test@test.com",

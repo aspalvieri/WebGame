@@ -10,6 +10,7 @@ import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
+import Footer from "./components/layout/Footer";
 import PageNotFound from "./components/layout/404";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
@@ -63,7 +64,7 @@ class App extends Component {
     if (loading) {
       return (
         <div className="App">
-          <div style={{position: "absolute", top :0, left: 0, right: 0, bottom: 0, margin: "auto", width: "15em", height: "15em"}} 
+          <div style={{position: "absolute", top: 0, left: 0, right: 0, bottom: 0, margin: "auto", width: "15em", height: "15em"}} 
           className="preloader-wrapper active">
             <div className="spinner-layer">
               <div className="circle-clipper left">
@@ -91,6 +92,7 @@ class App extends Component {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <Route path="*" component={PageNotFound} />
             </Switch>
+            <Footer />
           </div>
         </BrowserRouter>
       </Provider>
