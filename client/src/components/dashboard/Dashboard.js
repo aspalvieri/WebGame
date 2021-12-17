@@ -33,6 +33,9 @@ class Dashboard extends Component {
               <b>Name:</b> {user.name}<br/>
               <b>Level:</b> {user.character.level}<br/>
               <b>Health:</b> {user.character.health}/{user.character.maxHealth}
+              <span className="progress" style={{width: "20%", minWidth: "150px", margin: "0 auto", marginTop: "-3px"}}>
+                <span className="determinate" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
+              </span>
             </p>
             <p className="flow-text grey-text text-darken-1">
               <small>(version: {config.VERSION})</small>

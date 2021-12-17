@@ -14,6 +14,7 @@ import Footer from "./components/layout/Footer";
 import PageNotFound from "./components/layout/404";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Logout from "./components/auth/Logout";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import { config } from "./utils/configs";
@@ -89,6 +90,7 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/logout" component={Logout} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <Route path="*" component={PageNotFound} />
             </Switch>

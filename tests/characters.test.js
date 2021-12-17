@@ -5,7 +5,6 @@ const { app } = require("../app");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Character = require("../models/Character");
-const mongoose = require("mongoose");
 
 chai.use(chaiHttp);
 //Useful functions: before, beforeEach, after, afterEach
@@ -40,13 +39,22 @@ describe("/characters", () => {
     });
   });
   describe("GET /", () => {
+    it("it should NOT return the character for user (no token)", (done) => {
+      chai.request(app).get("/api/characters")
+      .send()
+      .end((err, res) => {
+        expect(res.status).to.eq(403);
+        expect(res.body.error).to.eq("A token is required for authentication");
+        done();
+      });
+    });
     it("it should NOT return the character for user (invalid token)", (done) => {
       chai.request(app).get("/api/characters")
       .auth("Invalid.JWT.Token", { type: "bearer" })
       .send()
       .end((err, res) => {
         expect(res.status).to.eq(401);
-        expect(res.text).to.eq("Invalid Token");
+        expect(res.body.error).to.eq("Invalid Token");
         done();
       });
     });
