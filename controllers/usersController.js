@@ -18,32 +18,39 @@ exports.register = (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ name_lower: req.body.name.toLowerCase() }).then(user => {
     if (user) {
-      return res.status(400).json({ email: "Email already exists" });
+      return res.status(400).json({ name: "Name already exists" });
     } 
     else {
-      Character.create(new Character({}))
-      .then(char => {
-        const newUser = new User({
-          name: req.body.name,
-          email: req.body.email,
-          password: req.body.password,
-          character: char.id
-        });
-
-        // Hash password before saving in database
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-              User.create(newUser)
-                .then(user => res.json(user))
-                .catch(err => console.log(err));
-          });
-        });
-      })
-      .catch(err => console.log(err));
+      User.findOne({ email: req.body.email }).then(user =>{
+        if (user) {
+          return res.status(400).json({ email: "Email already exists" });
+        }
+        else {
+          Character.create(new Character({}))
+          .then(char => {
+            const newUser = new User({
+              name: req.body.name,
+              name_lower: req.body.name.toLowerCase(),
+              email: req.body.email,
+              password: req.body.password,
+              character: char.id
+            });
+            // Hash password before saving in database
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.password = hash;
+                  User.create(newUser)
+                    .then(user => res.json(user))
+                    .catch(err => console.log(err));
+              });
+            });
+          })
+          .catch(err => console.log(err));
+        }
+      });
     }
   });
 };

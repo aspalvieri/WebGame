@@ -30,6 +30,14 @@ class App extends Component {
 
   async componentDidMount() {
     if (localStorage.jwtToken) {
+      //Check for version mismatch
+      if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
+        localStorage.removeItem("VERSION");
+        // Logout user
+        store.dispatch(logoutUser());
+        // Redirect to login
+        window.location.href = "./login";
+      }
       // Set auth token header auth
       const token = localStorage.jwtToken;
       setAuthToken(token);
@@ -45,16 +53,13 @@ class App extends Component {
         // Redirect to login
         window.location.href = "./login";
       }
-      //Check for version mismatch
-      if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
-        localStorage.removeItem("VERSION");
-        // Logout user
-        store.dispatch(logoutUser());
-        // Redirect to login
-        window.location.href = "./login";
-      }
       //Update character
       store.dispatch(await updateCharacter(null));
+      //If there was an error getting the character, log the user out
+      if (!store.getState().auth.user.character) {
+        store.dispatch(logoutUser());
+        window.location.href = "./login";
+      }
     }
     this.setState({ loading: false });
   }

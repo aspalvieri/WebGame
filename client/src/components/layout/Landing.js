@@ -45,7 +45,7 @@ class Landing extends Component {
                   borderRadius: "3px",
                   letterSpacing: "1.5px"
                 }}
-                className="btn btn-large waves-effect waves-light hoverable grey darken-1"
+                className="btn btn-large waves-effect waves-light hoverable teal"
               >
                 Log In
               </Link>

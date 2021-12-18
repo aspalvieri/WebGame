@@ -14,7 +14,7 @@ export const updateCharacter = async (char) => {
   else {
     return {
       type: UPDATE_CHARACTER,
-      payload: await axios.get(`${config.SERVER_URI}/api/characters`).then(res => res.data.character)
+      payload: await axios.get(`${config.SERVER_URI}/api/characters`).then(res => res.data.character).catch(err => console.log(err))
     }
   }
 };

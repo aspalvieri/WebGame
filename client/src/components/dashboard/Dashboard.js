@@ -33,7 +33,7 @@ class Dashboard extends Component {
               <b>Name:</b> {user.name}<br/>
               <b>Level:</b> {user.character.level}<br/>
               <b>Health:</b> {user.character.health}/{user.character.maxHealth}
-              <span className="progress" style={{width: "20%", minWidth: "150px", margin: "0 auto", marginTop: "-3px"}}>
+              <span className="progress" style={{width: "20%", minWidth: "150px", maxWidth: "225px", margin: "0 auto", marginTop: "-3px"}}>
                 <span className="determinate" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
               </span>
             </p>

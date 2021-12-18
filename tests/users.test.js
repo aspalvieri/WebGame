@@ -48,6 +48,21 @@ describe("/users", () => {
         done();
       });
     });
+    it("it should NOT create a new user (name already exists)", (done) => {
+      let user = {
+        name: "tesT",
+        email: "test2@test.com",
+        password: "123456",
+        password2: "123456"
+      };
+      chai.request(app).post("/api/users/register")
+      .send(user)
+      .end((err, res) => {
+        expect(res.status).to.eq(400);
+        expect(res.body.name).to.eq("Name already exists");
+        done();
+      });
+    });
     it("it should NOT create a new user (password too short)", (done) => {
       let user = {
         name: "Test 2",

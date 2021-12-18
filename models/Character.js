@@ -18,6 +18,10 @@ const CharacterSchema = new Schema({
   maxHealth: {
     type: Number,
     default: 200
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 
