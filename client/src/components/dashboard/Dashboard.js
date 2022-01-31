@@ -1,69 +1,45 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
+import React from "react";
+import allActions from "../../actions";
 import { config } from "../../utils/configs";
-//import M from "materialize-css";
+import { useSelector, useDispatch } from "react-redux";
 
-class Dashboard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      
-    }
-  }
+function Dashboard() {
+  const user = useSelector(state => state.auth.user);
 
-  componentDidMount() {
-    
-  }
+  const dispatch = useDispatch();
 
-  onLogoutClick = e => {
+  const onLogoutClick = e => {
     e.preventDefault();
-    this.props.logoutUser();
+    dispatch(allActions.authActions.logoutUser(null));
   };
 
-  render() {
-    const { user } = this.props.auth;
-    return (
-      <div className="container">
-        <div className="row valign-wrapper">
-          <div className="col s12 center-align">
-            <h4>Character Info</h4>
-            <p className="flow-text">
-              <b>Name:</b> {user.name}<br/>
-              <b>Level:</b> {user.character.level}<br/>
-              <b>Health:</b> {user.character.health}/{user.character.maxHealth}
-              <span className="progress" style={{width: "20%", minWidth: "150px", maxWidth: "225px", margin: "0 auto", marginTop: "-3px"}}>
-                <span className="determinate" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
-              </span>
-            </p>
-            <p className="flow-text grey-text text-darken-1">
-              <small>(version: {config.VERSION})</small>
-            </p>
-            <button 
-              style={{width: "150px", borderRadius: "3px", letterSpacing: "1.5px", marginTop: "1rem"}}
-              onClick={this.onLogoutClick} 
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Logout
-            </button>
-          </div>
+  return (
+    <div className="container">
+      <div className="row valign-wrapper">
+        <div className="col s12 center-align">
+          <h4>Character Info</h4>
+          <p className="flow-text">
+            <b>Name:</b> {user.name}<br/>
+            <b>Level:</b> {user.character.level}<br/>
+            <b>Health:</b> {user.character.health}/{user.character.maxHealth}
+            <span className="progress" style={{width: "20%", minWidth: "150px", maxWidth: "225px", margin: "0 auto", marginTop: "-3px"}}>
+              <span className="determinate" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
+            </span>
+          </p>
+          <p className="flow-text grey-text text-darken-1">
+            <small>(version: {config.VERSION})</small>
+          </p>
+          <button 
+            style={{width: "150px", borderRadius: "3px", letterSpacing: "1.5px", marginTop: "1rem"}}
+            onClick={onLogoutClick} 
+            className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+          >
+            Logout
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-Dashboard.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Dashboard);
+export default Dashboard;

@@ -4,7 +4,7 @@ import { config } from "../utils/configs";
 import { UPDATE_CHARACTER } from "./types";
 
 //Update user's character
-export const updateCharacter = async (char) => {
+const updateCharacter = async (char) => {
   if (char) {
     return {
       type: UPDATE_CHARACTER,
@@ -18,3 +18,9 @@ export const updateCharacter = async (char) => {
     }
   }
 };
+
+const actions = {
+  updateCharacter
+}
+
+export default actions;

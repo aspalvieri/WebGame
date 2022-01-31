@@ -3,15 +3,15 @@ import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import { config } from "../utils/configs";
 
-import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER, USER_LOADING, RESET_ALL_STATES } from "./types";
 
 // Register User
-export const registerUser = (userData, props) => dispatch => {
+const registerUser = (userData, history) => dispatch => {
   axios.post(`${config.SERVER_URI}/api/users/register`, userData)
   .then(res => {
     //Clear any errors on the screen
     dispatch({ type: CLEAR_ERRORS });
-    props.history.push("/login?registered=true");
+    history.push("/login?registered=true");
   })
   .catch(err => 
     dispatch({
@@ -22,7 +22,7 @@ export const registerUser = (userData, props) => dispatch => {
 };
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
+const loginUser = userData => dispatch => {
   axios.post(`${config.SERVER_URI}/api/users/login`, userData)
   .then(res => {
     // Set token to localStorage
@@ -47,7 +47,7 @@ export const loginUser = userData => dispatch => {
 };
 
 // Set logged in user
-export const setCurrentUser = decoded => {
+const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
@@ -55,7 +55,7 @@ export const setCurrentUser = decoded => {
 };
 
 // User loading
-export const setUserLoading = value => {
+const setUserLoading = value => {
   return {
     type: USER_LOADING,
     payload: value
@@ -63,11 +63,24 @@ export const setUserLoading = value => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+const logoutUser = (persistor) => dispatch => {
+  if (persistor)
+    persistor.purge();
   // Remove token from local storage
   localStorage.removeItem("jwtToken");
+  dispatch({ type: RESET_ALL_STATES });
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
+const actions = {
+  registerUser,
+  loginUser,
+  setCurrentUser,
+  setUserLoading,
+  logoutUser
+}
+
+export default actions;

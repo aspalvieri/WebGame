@@ -1,33 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
+import allActions from "../../actions";
 
-class Logout extends Component {
-  constructor() {
-    super();
-    this.state = {
-      
-    }
-  }
+function Logout() {
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    this.props.logoutUser();
-  }
+  useEffect(() => {
+    dispatch(allActions.authActions.logoutUser(null));
+  }, [dispatch]);
 
-  render() {
-    return (
-      <>
-      </>
-    );
-  }
+  return <Redirect to="/login" />;
 }
 
-Logout.propTypes = {
-  logoutUser: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { logoutUser }
-)(Logout);
+export default Logout;

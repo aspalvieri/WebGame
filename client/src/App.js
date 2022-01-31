@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 
-import { setCurrentUser, logoutUser } from "./actions/authActions";
-import { updateCharacter } from "./actions/charActions";
+import allActions from "./actions";
 import { Provider } from "react-redux";
-import store from "./store";
+import buildStore from "./store";
+import { PersistGate } from 'redux-persist/integration/react'
 
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -17,11 +17,19 @@ import Login from "./components/auth/Login";
 import Logout from "./components/auth/Logout";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import ScrollToTop from "./components/modules/ScrollToTop";
 import { config } from "./utils/configs";
 
-import "./scss/materialize.scss"; //materialize scss
+//Importing fontawesome, bootstrap, and custom css
+import "./assets/css/fontawesome.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./scss/App.scss"; //App scss
-import "materialize-css"; //materialize js
+
+//Importing jquery and boostrap js
+import "jquery/dist/jquery.min.js";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+const { store, persistor } = buildStore();
 
 class App extends Component {
   state = {
@@ -33,33 +41,23 @@ class App extends Component {
       //Check for version mismatch
       if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
         localStorage.removeItem("VERSION");
-        // Logout user
-        store.dispatch(logoutUser());
-        // Redirect to login
+        store.dispatch(allActions.authActions.logoutUser(persistor));
         window.location.href = "./login";
       }
       // Set auth token header auth
       const token = localStorage.jwtToken;
       setAuthToken(token);
-      // Decode token and get user info and exp
       const decoded = jwt_decode(token);
-      // Set user and isAuthenticated
-      store.dispatch(setCurrentUser(decoded));
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
-        // Logout user
-        store.dispatch(logoutUser());
-        // Redirect to login
+        store.dispatch(allActions.authActions.logoutUser(persistor));
         window.location.href = "./login";
       }
-      //Update character
-      store.dispatch(await updateCharacter(null));
-      //If there was an error getting the character, log the user out
-      if (!store.getState().auth.user.character) {
-        store.dispatch(logoutUser());
-        window.location.href = "./login";
-      }
+    }
+    //If the user doesn't have a token, purge persistor just to be safe
+    else {
+      persistor.purge();
     }
     this.setState({ loading: false });
   }
@@ -88,20 +86,23 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <BrowserRouter>
-          <div className="App">
-            <Navbar />
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <PrivateRoute exact path="/logout" component={Logout} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <Route path="*" component={PageNotFound} />
-            </Switch>
-            <Footer />
-          </div>
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <div className="App">
+              <Navbar />
+              <ScrollToTop />
+              <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <PrivateRoute exact path="/logout" component={Logout} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <Route path="*" component={PageNotFound} />
+              </Switch>
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     );
   }
