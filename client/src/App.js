@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -18,6 +18,7 @@ import Logout from "./components/auth/Logout";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import ScrollToTop from "./components/modules/ScrollToTop";
+import Loading from "./components/modules/Loading";
 import { config } from "./utils/configs";
 
 //Importing fontawesome, bootstrap, and custom css
@@ -31,12 +32,10 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const { store, persistor } = buildStore();
 
-class App extends Component {
-  state = {
-    loading: true
-  }
+function App() {
+  const [loading, setLoading] = useState(true);
 
-  async componentDidMount() {
+  useEffect(() => {
     if (localStorage.jwtToken) {
       //Check for version mismatch
       if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
@@ -59,53 +58,38 @@ class App extends Component {
     else {
       persistor.purge();
     }
-    this.setState({ loading: false });
-  }
+    setLoading(false);
+  }, []);
 
-  render() {
-    const loading = this.state.loading;
-
-    if (loading) {
-      return (
-        <div className="App">
-          <div style={{position: "absolute", top: 0, left: 0, right: 0, bottom: 0, margin: "auto", width: "15em", height: "15em"}} 
-          className="preloader-wrapper active">
-            <div className="spinner-layer">
-              <div className="circle-clipper left">
-                <div style={{borderWidth: "12px"}} className="circle"></div>
-              </div><div className="gap-patch">
-                <div style={{borderWidth: "12px"}} className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div style={{borderWidth: "12px"}} className="circle"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
+  if (loading) {
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <BrowserRouter>
-            <div className="App">
-              <Navbar />
-              <ScrollToTop />
-              <Switch>
-                <Route exact path="/" component={Landing} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <PrivateRoute exact path="/logout" component={Logout} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <Route path="*" component={PageNotFound} />
-              </Switch>
-              <Footer />
-            </div>
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
+      <div className="App">
+        <Loading width="15em" height="15em" />
+      </div>
     );
   }
+
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <div className="App">
+            <Navbar />
+            <ScrollToTop />
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/logout" component={Logout} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <Route path="*" component={PageNotFound} />
+            </Switch>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  );
 }
 
 export default App;

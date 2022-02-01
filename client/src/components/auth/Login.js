@@ -66,71 +66,41 @@ function Login(props) {
 
   return (
     <div className="container">
-      <div className="row valign-wrapper">
-        <div className="col s8 offset-s2">
-          <Link to="/" className="btn-flat waves-effect">
-            <i className="material-icons left">keyboard_backspace</i> Back to home
+      <div className="row">
+        <div className="col-12 mx-auto text-center">
+          <Link to="/" className="btn btn-light">
+            <i className="fas fa-arrow-left"></i> Back to home
           </Link>
-          <div className="col s12" style={{ paddingLeft: "11.250px" }}>
           {userRegistered(getParams.registered)}
-            <h4>
-              <b>Login</b> below
-            </h4>
-            <p className="grey-text text-darken-1">
-              Don't have an account? <Link to="/register">Register</Link>
-            </p>
-          </div>
+          <h4>
+            <b>Login</b> below
+          </h4>
+          <p className="grey-text text-darken-1">
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
           <form noValidate onSubmit={onSubmit}>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.email}
-                autoComplete="email"
-                id="email"
-                type="email"
-                className={classnames("", {
-                  invalid: errors.email || errors.emailnotfound
-                })}
-              />
-              <label htmlFor="email">Email</label>
-              <span className="red-text">
-                {errors.email}
-                {errors.emailnotfound}
-              </span>
-            </div>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.password}
-                autoComplete="current-password"
-                id="password"
-                type="password"
-                className={classnames("", {
-                  invalid: errors.password || errors.passwordincorrect
-                })}
-              />
-              <label htmlFor="password">Password</label>
-              <span className="red-text">
-                {errors.password}
-                {errors.passwordincorrect}
-              </span>
-            </div>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <button
-                disabled={load ? "disabled" : ""}
-                style={{
-                  width: "150px",
-                  borderRadius: "3px",
-                  letterSpacing: "1.5px",
-                  marginTop: "1rem"
-                }}
-                type="submit"
-                className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-              >
-                Login
-              </button>
+            <div className="row justify-content-center">
+              <div className="col-6 mb-4">
+                <label htmlFor="email" className="form-label"><b>Email</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.email || errors.emailnotfound })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange} 
+                  error={errors.email} autoComplete="email" id="email" type="email" />
+                <span className="text-danger"><small>{errors.email}{errors.emailnotfound}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-6 mb-4">
+                <label htmlFor="password" className="form-label"><b>Password</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.password || errors.passwordincorrect })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange}
+                  error={errors.password} autoComplete="current-password" id="password" type="password" />
+                <span className="text-danger"><small>{errors.password}{errors.passwordincorrect}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-3 d-grid">
+                <button disabled={load ? "disabled" : ""} type="submit" className="btn btn-primary">
+                  Login
+                </button>
+              </div>
             </div>
           </form>
         </div>

@@ -1,4 +1,6 @@
 $navcolor: rgba(192, 192, 192, 0.9);
+$footcolor: rgb(128, 128, 128);
+$containerSize: 1024px;
 
 .App {
   display: flex;
@@ -7,12 +9,25 @@ $navcolor: rgba(192, 192, 192, 0.9);
 
   .container {
     margin-top: 100px;
+		min-width: $containerSize;
+		width: $containerSize;
+		@media screen and (max-width: 991px) {
+				margin-top: 80px;
+		}
   }
-  @media screen and (max-width: 991px) {
-    .container {
-      margin-top: 80px;
-    }
-  }
+
+	footer {
+		background-color: $footcolor;
+		color: white;
+		width: 100%;
+		border-top: 2px solid black;
+		text-align: center;
+		padding: 15px;
+		margin-top: auto;
+		@media screen and (max-width: $containerSize) {
+			width: $containerSize;
+		}
+	}
 }
 
 //NAVIGATION CSS

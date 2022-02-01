@@ -47,94 +47,56 @@ function Register() {
 
   return (
     <div className="container">
-      <div className="row valign-wrapper">
-        <div className="col s8 offset-s2">
-          <Link to="/" className="btn-flat waves-effect">
-            <i className="material-icons left">keyboard_backspace</i> Back to home
+      <div className="row">
+        <div className="col-12 mx-auto text-center">
+          <Link to="/" className="btn btn-light">
+            <i className="fas fa-arrow-left"></i> Back to home
           </Link>
-          <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-            <h4>
-              <b>Register</b> below
-            </h4>
-            <p className="grey-text text-darken-1">
-              Already have an account? <Link to="/login">Log in</Link>
-            </p>
-          </div>
+          <h4>
+            <b>Register</b> below
+          </h4>
+          <p className="grey-text text-darken-1">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
           <form noValidate onSubmit={onSubmit}>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.name}
-                autoComplete="name"
-                id="name"
-                type="text"
-                className={classnames("", {
-                  invalid: errors.name
-                })}
-              />
-              <label htmlFor="name">Name</label>
-              <span className="red-text">{errors.name}</span>
-            </div>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.email}
-                autoComplete="email"
-                id="email"
-                type="email"
-                className={classnames("", {
-                  invalid: errors.email
-                })}
-              />
-              <label htmlFor="email">Email</label>
-              <span className="red-text">{errors.email}</span>
-            </div>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.password}
-                autoComplete="current-password"
-                id="password"
-                type="password"
-                className={classnames("", {
-                  invalid: errors.password
-                })}
-              />
-              <label htmlFor="password">Password</label>
-              <span className="red-text">{errors.password}</span>
-            </div>
-            <div className="input-field col s12">
-              <input
-                disabled={load ? "disabled" : ""}
-                onChange={handleInputChange}
-                error={errors.password2}
-                autoComplete="new-password"
-                id="password2"
-                type="password"
-                className={classnames("", {
-                  invalid: errors.password2
-                })}
-              />
-              <label htmlFor="password2">Confirm Password</label>
-              <span className="red-text">{errors.password2}</span>
-            </div>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <button
-                disabled={load ? "disabled" : ""}
-                style={{
-                  width: "150px",
-                  borderRadius: "3px",
-                  letterSpacing: "1.5px",
-                  marginTop: "1rem"
-                }}
-                type="submit"
-                className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-              >
-                Sign up
-              </button>
+            <div className="row justify-content-center">
+              <div className="col-6 mb-4">
+                <label htmlFor="name" className="form-label"><b>Name</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.name })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange}
+                  error={errors.name} autoComplete="name" id="name" type="text" />
+                <span className="text-danger"><small>{errors.name}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-6 mb-4">
+                <label htmlFor="email" className="form-label"><b>Email</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.email })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange}
+                  error={errors.email} autoComplete="email" id="email" type="email" />
+                <span className="text-danger"><small>{errors.email}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-6 mb-4">
+                <label htmlFor="password" className="form-label"><b>Password</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.password })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange}
+                  error={errors.password} autoComplete="current-password" id="password" type="password" />
+                <span className="text-danger"><small>{errors.password}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-6 mb-4">
+                <label htmlFor="password2" className="form-label"><b>Confirm Password</b></label>
+                <input className={classnames("form-control", { "is-invalid": errors.password2 })}
+                  disabled={load ? "disabled" : ""} onChange={handleInputChange}
+                  error={errors.password2} autoComplete="new-password" id="password2" type="password" />
+                <span className="text-danger"><small>{errors.password2}</small></span>
+              </div>
+              <div className="col-12"></div>
+              <div className="col-3 d-grid">
+                <button disabled={load ? "disabled" : ""} type="submit" className="btn btn-primary">
+                  Sign up
+                </button>
+              </div>
             </div>
           </form>
         </div>

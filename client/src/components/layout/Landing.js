@@ -12,41 +12,25 @@ function Landing() {
 
   return (
     <div className="container">
-      <div className="row valign-wrapper">
-        <div className="col s12 center-align">
+      <div className="row">
+        <div className="col-12 mx-auto text-center">
           <h4>
-            <b>MERN</b>: A login/auth app built with the{" "}
-            <span style={{ fontFamily: "monospace" }}>MERN</span> stack
+            <b>Web Game</b>: RPG-style Game
           </h4>
           <p className="flow-text grey-text text-darken-1">
-            Full-stack app with user authentication via Passport and JWTs, stored in MongoDB
+            Made with Nodejs, React, Redux, MongoDB.
           </p>
-          <br />
-          <div className="col s6">
-            <Link
-              to="/register"
-              style={{
-                width: "140px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px"
-              }}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Register
-            </Link>
-          </div>
-          <div className="col s6">
-            <Link
-              to="/login"
-              style={{
-                width: "140px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px"
-              }}
-              className="btn btn-large waves-effect waves-light hoverable teal"
-            >
-              Log In
-            </Link>
+          <div className="row justify-content-center">
+            <div className="col-3">
+              <Link to="/register" className="btn btn-lg btn-primary">
+                Register
+              </Link>
+            </div>
+            <div className="col-3">
+              <Link to="/login" className="btn btn-lg btn-outline-primary">
+                Login
+              </Link>
+            </div>
           </div>
         </div>
       </div>

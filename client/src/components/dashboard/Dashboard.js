@@ -15,25 +15,21 @@ function Dashboard() {
 
   return (
     <div className="container">
-      <div className="row valign-wrapper">
-        <div className="col s12 center-align">
+      <div className="row">
+        <div className="col-12 mx-auto">
           <h4>Character Info</h4>
           <p className="flow-text">
             <b>Name:</b> {user.name}<br/>
             <b>Level:</b> {user.character.level}<br/>
             <b>Health:</b> {user.character.health}/{user.character.maxHealth}
-            <span className="progress" style={{width: "20%", minWidth: "150px", maxWidth: "225px", margin: "0 auto", marginTop: "-3px"}}>
-              <span className="determinate" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
+            <span className="progress" style={{width: "150px"}}>
+              <span className="progress-bar bg-success" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>
             </span>
           </p>
-          <p className="flow-text grey-text text-darken-1">
+          <p className="text-secondary">
             <small>(version: {config.VERSION})</small>
           </p>
-          <button 
-            style={{width: "150px", borderRadius: "3px", letterSpacing: "1.5px", marginTop: "1rem"}}
-            onClick={onLogoutClick} 
-            className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-          >
+          <button onClick={onLogoutClick} className="btn btn-outline-secondary">
             Logout
           </button>
         </div>
