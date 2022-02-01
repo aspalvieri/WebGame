@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, USER_LOADING, UPDATE_CHARACTER, RESET_ALL_STATES } from "../actions/types";
+import { SET_CURRENT_USER, USER_LOADING, UPDATE_CHARACTER, RESET_ALL_STATES, UPDATE_INBATTLE } from "../actions/types";
 
 const isEmpty = require("is-empty");
 
@@ -28,7 +28,18 @@ export default function authReducers(state = initialState, action) {
           ...state.user,
           character: action.payload
         }
-      }
+      };
+    case UPDATE_INBATTLE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          character: {
+            ...state.user.character,
+            inBattle: action.payload
+          }
+        }
+      };
     case RESET_ALL_STATES:
       return { ...initialState };
     default:

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 import queryString from 'query-string';
 import allActions from "../../actions";
 
 function Login(props) {
-  const history = useHistory();
   const getParams = queryString.parse(props.location.search);
 
   const user = useSelector(state => state.auth);
@@ -16,13 +15,7 @@ function Login(props) {
   const [load, setLoad] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user.isAuthenticated) {
-      history.push("/dashboard");
-    }
-  }, [user, history]);
-
+  
   useEffect(() => {
     setLoad(false);
   }, [errors]);

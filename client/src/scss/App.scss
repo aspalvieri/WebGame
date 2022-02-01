@@ -28,6 +28,16 @@ $containerSize: 1024px;
 			width: $containerSize;
 		}
 	}
+
+	.battleText {
+		color: red;
+		animation: fadeOut 0.25s linear 0.5s forwards;
+	}
+
+	@keyframes fadeOut {
+		0% {opacity: 1;}
+		100% {opacity: 0;} 
+ } 
 }
 
 //NAVIGATION CSS

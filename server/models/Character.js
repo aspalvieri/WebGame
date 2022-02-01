@@ -11,6 +11,22 @@ const CharacterSchema = new Schema({
     type: Number,
     default: 1
   },
+  area: {
+    type: String,
+    default: "start"
+  },
+  gold: {
+    type: Number,
+    default: 0
+  },
+  damageMin: {
+    type: Number,
+    default: 8
+  },
+  damageMax: {
+    type: Number,
+    default: 20
+  },
   health: {
     type: Number,
     default: 200
@@ -18,6 +34,14 @@ const CharacterSchema = new Schema({
   maxHealth: {
     type: Number,
     default: 200
+  },
+  exp: {
+    type: Number,
+    default: 0
+  },
+  expMax: {
+    type: Number,
+    default: 100
   },
   date: {
     type: Date,
