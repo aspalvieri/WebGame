@@ -29,6 +29,7 @@ function Dashboard() {
             <b>Level:</b> {user.character.level}<br/>
             <b>Gold:</b> {user.character.gold}<br/>
             <b>Damage:</b> {user.character.damageMin}-{user.character.damageMax}<br/>
+            <b>Speed:</b> {user.character.speed}<br/>
             <b>Health:</b> {user.character.health}/{user.character.maxHealth}
             <span className="progress" style={{width: "150px"}}>
               <span className="progress-bar bg-success" style={{width: `${(user.character.health / user.character.maxHealth) * 100}%`}}></span>

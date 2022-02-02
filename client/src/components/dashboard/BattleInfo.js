@@ -10,9 +10,10 @@ function BattleInfo() {
 
   useEffect(() => {
     return () => {
+      //Comment this out when trying to stylize the page
       dispatch(allActions.charActions.clearBattle());
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   const onContinue = e => {
     e.preventDefault();
@@ -30,7 +31,13 @@ function BattleInfo() {
           <h1><b>Result:</b> {info.result}</h1>
           <b>Gold:</b> {info.result === "Victory" ? `+${info.gold}` : `-${info.gold}`}<br/>
           <b>Experience:</b> {info.result === "Victory" ? `+${info.exp}` : `-${info.exp}`}<br/>
-          {info.levelUp && <><b>Leveled up!</b><br/></>}
+          {info.levelUp && 
+          <>
+            <h3>Leveled up!</h3>
+            <b>Level:</b> +1<br/>
+            <b>Health:</b> +{info.levelInfo.health}<br/>
+            <b>Damage:</b> +{info.levelInfo.damage}<br/>
+          </>}
           <button onClick={onContinue} className="mt-3 btn btn-primary">Continue</button>
         </div>
       </div>

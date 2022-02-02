@@ -27,6 +27,10 @@ const CharacterSchema = new Schema({
     type: Number,
     default: 20
   },
+  speed: {
+    type: Number,
+    default: 5
+  },
   health: {
     type: Number,
     default: 200

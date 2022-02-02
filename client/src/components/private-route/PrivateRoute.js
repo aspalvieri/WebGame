@@ -8,7 +8,7 @@ const PrivateRoute = ({ component: Component, auth, battle, location, ...rest })
     {...rest}
     render={props =>
       auth.isAuthenticated === true ? (
-        auth.user.character.inBattle === true && location.pathname !== "/battle" ? (
+        auth.user.character.inBattle === true && (battle && !battle.info) && location.pathname !== "/battle" ? (
           <Redirect to="/battle" />
         ) : (
         <Component {...props} />
@@ -21,11 +21,13 @@ const PrivateRoute = ({ component: Component, auth, battle, location, ...rest })
 );
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  battle: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  battle: state.battle
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

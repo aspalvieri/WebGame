@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Character = require("../models/Character");
 
 const battles = require("../game/battles");
+const { levelUp } = require("../game/actions");
 
 exports.index = (req, res) => {
   User.findOne({ _id: req.user.id }).populate("character").then(user => {
@@ -49,26 +50,31 @@ exports.getBattle = (req, res) => {
 };
 
 exports.attack = (req, res) => {
-  let [battle, info, player] = battles.attack(req.user.id);
-  if (!battle) {
+  let [complete, battle, info, player] = battles.attack(req.user.id);
+  if (complete) {
     if (info && (info.result === "Victory" || info.result === "Defeat")) {
+      let prevPlayer = {...player};
+      if (info.levelUp) {
+        levelUp(player, info);
+      }
       Character.findOneAndUpdate({ _id: req.user.character._id }, { 
         inBattle: false,
         level: player.level,
         damageMin: player.damageMin,
         damageMax: player.damageMax,
         maxHealth: player.maxHealth,
-        health: player.health,
+        health: (info.result === "Victory" ? player.health : player.maxHealth),
         exp: player.exp,
         expMax: player.expMax,
         gold: player.gold
       }, { new: true }).then(character => {
-        res.json({ inBattle: false, info: info, character: character });
+        battle.player = prevPlayer;
+        res.json({ inBattle: false, battle: battle, info: info, character: character });
       }).catch(err => console.log(err));
     }
     else {
       Character.updateOne({ _id: req.user.character._id }, { inBattle: false }).then(() => {
-        res.json({ inBattle: false });
+        res.json({ inBattle: false, battle: battle });
       }).catch(err => console.log(err));
     }
   }

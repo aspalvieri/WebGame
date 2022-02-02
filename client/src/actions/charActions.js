@@ -22,7 +22,9 @@ const updateCharacter = () => dispatch => {
 };
 
 const findBattle = () => dispatch => {
-  dispatch({ type: CLEAR_BATTLE });
+  dispatch({ 
+    type: CLEAR_BATTLE 
+  });
   axios.get(`${config.SERVER_URI}/api/characters/findBattle`).then(res => {
     dispatch({
       type: UPDATE_INBATTLE,
@@ -62,6 +64,9 @@ const attack = () => dispatch => {
     if (!res.data.inBattle) {
       if (res.data.character && res.data.info) {
         dispatch([{
+          type: UPDATE_BATTLE,
+          payload: res.data.battle
+        }, {
           type: UPDATE_AFTER_BATTLE,
           payload: res.data.info
         }, {
