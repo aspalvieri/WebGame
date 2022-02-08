@@ -8,13 +8,10 @@ exports.levelUp = (player, info) => {
   player.exp -= player.expMax;
   player.expMax += 100;
   player.level += 1;
-  player.maxHealth += 50;
-  player.health = player.maxHealth;
-  player.damageMin += 1;
-  player.damageMax += 2;
+  player.health = player.stats.vitality * 5;
+  player.stats.points += 3;
   info.levelInfo = {
-    health: "50",
-    damage: "1-2"
+    points: "+3"
   };
 }
 
@@ -33,11 +30,11 @@ exports.calculateReward = (player, enemy, info) => {
 };
 
 exports.calculateDefeat = (player, info) => {
+  player.health = 0;
   let exp = Math.floor(player.exp * 0.25);
   let gold = Math.floor(player.gold * 0.10);
   player.exp -= exp;
   player.gold -= gold;
-  player.health = 0;
   info.result = "Defeat";
   info.exp = exp;
   info.gold = gold;
@@ -45,5 +42,7 @@ exports.calculateDefeat = (player, info) => {
 
 exports.findEnemy = (player) => {
   let enems = enemies.filter(e => e.area === player.area);
-  return enems[this.getRndInteger(0, enems.length - 1)];
+  let enemy = enems[this.getRndInteger(0, enems.length - 1)];
+  enemy.health = enemy.stats.vitality * 5;
+  return enemy;
 };

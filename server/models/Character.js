@@ -7,37 +7,17 @@ const CharacterSchema = new Schema({
     type: Boolean,
     default: false
   },
-  level: {
-    type: Number,
-    default: 1
-  },
   area: {
     type: String,
     default: "start"
   },
+  level: {
+    type: Number,
+    default: 1
+  },
   gold: {
     type: Number,
     default: 0
-  },
-  damageMin: {
-    type: Number,
-    default: 8
-  },
-  damageMax: {
-    type: Number,
-    default: 20
-  },
-  speed: {
-    type: Number,
-    default: 5
-  },
-  health: {
-    type: Number,
-    default: 200
-  },
-  maxHealth: {
-    type: Number,
-    default: 200
   },
   exp: {
     type: Number,
@@ -47,10 +27,33 @@ const CharacterSchema = new Schema({
     type: Number,
     default: 100
   },
-  date: {
-    type: Date,
-    default: Date.now
+  health: {
+    type: Number,
+    default: 50
+  },
+  stats: {
+    //1 point = 5 health
+    vitality: {
+      type: Number,
+      default: 10
+    },
+    //1 point = ~1.5 damage
+    strength: {
+      type: Number,
+      default: 5
+    },
+    //Chance to attack first, relative to opponent's
+    speed: {
+      type: Number,
+      default: 5
+    },
+    points: {
+      type: Number,
+      default: 0
+    }
   }
+}, {
+  timestamps: true
 });
 
 module.exports = Character = mongoose.model("characters", CharacterSchema);

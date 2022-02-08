@@ -4,12 +4,12 @@ import { config } from "../utils/configs";
 import { UPDATE_CHARACTER, USER_LOADING, UPDATE_INBATTLE, UPDATE_BATTLE, UPDATE_AFTER_BATTLE, CLEAR_BATTLE } from "./types";
 
 //Update user's character
-const updateCharacter = () => dispatch => {
+const updateCharacter = () => async dispatch => {
   dispatch({
     type: USER_LOADING,
     payload: true
   });
-  axios.get(`${config.SERVER_URI}/api/characters`).then(res => {
+  await axios.get(`${config.SERVER_URI}/api/characters`).then(res => {
     dispatch({
       type: UPDATE_CHARACTER,
       payload: res.data.character
@@ -25,7 +25,7 @@ const findBattle = () => dispatch => {
   dispatch({ 
     type: CLEAR_BATTLE 
   });
-  axios.get(`${config.SERVER_URI}/api/characters/findBattle`).then(res => {
+  axios.post(`${config.SERVER_URI}/api/characters/battle`).then(res => {
     dispatch({
       type: UPDATE_INBATTLE,
       payload: res.data
@@ -38,7 +38,7 @@ const getBattle = () => dispatch => {
     type: USER_LOADING,
     payload: true
   });
-  axios.get(`${config.SERVER_URI}/api/characters/getBattle`).then(res => {
+  axios.get(`${config.SERVER_URI}/api/characters/battle`).then(res => {
     let battle = res.data;
     if (!battle) {
       dispatch({
@@ -60,7 +60,7 @@ const getBattle = () => dispatch => {
 };
 
 const attack = () => dispatch => {
-  axios.get(`${config.SERVER_URI}/api/characters/attack`).then(res => {
+  axios.post(`${config.SERVER_URI}/api/characters/attack`).then(res => {
     if (!res.data.inBattle) {
       if (res.data.character && res.data.info) {
         dispatch([{
@@ -91,14 +91,38 @@ const attack = () => dispatch => {
 
 const clearBattle = () => dispatch => {
   dispatch({ type: CLEAR_BATTLE });
-}
+};
+
+const spendPoint = (stat) => dispatch => {
+  dispatch({
+    type: USER_LOADING,
+    payload: true
+  });
+  axios.post(`${config.SERVER_URI}/api/characters/stats`, { stat: stat }).then(res => {
+    dispatch({
+      type: UPDATE_CHARACTER,
+      payload: res.data.character
+    });
+    dispatch({
+      type: USER_LOADING,
+      payload: false
+    });
+  }).catch(err => {
+    console.log(err);
+    dispatch({
+      type: USER_LOADING,
+      payload: false
+    });
+  });
+};
 
 const actions = {
   updateCharacter,
   findBattle,
   getBattle,
   attack,
-  clearBattle
+  clearBattle,
+  spendPoint
 };
 
 export default actions;

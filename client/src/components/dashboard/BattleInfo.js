@@ -35,10 +35,9 @@ function BattleInfo() {
           <>
             <h3>Leveled up!</h3>
             <b>Level:</b> +1<br/>
-            <b>Health:</b> +{info.levelInfo.health}<br/>
-            <b>Damage:</b> +{info.levelInfo.damage}<br/>
+            <b>Stat Points:</b> {info.levelInfo.points}<br/>
           </>}
-          <button onClick={onContinue} className="mt-3 btn btn-primary">Continue</button>
+          <button onClick={onContinue} className="mt-3 btn btn-main">Continue</button>
         </div>
       </div>
     </div>

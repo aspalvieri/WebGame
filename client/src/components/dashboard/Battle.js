@@ -40,22 +40,22 @@ function Battle() {
         //If player attacked first
         if (battle.first === "Player") {
           setPrevEnemy(battle.enemy);
-          setSendDamage(state => [<span key={state.length} className="battleText"><b>-{battle.sendDamage}</b></span>, ...state]);
+          setSendDamage(state => [<b key={state.length} className="battleText">&nbsp;-{battle.sendDamage}</b>, ...state]);
           if (battle.enemy.health > 0) {
             timer1 = setTimeout(() => {
               setPrevPlayer(battle.player);
-              setTakeDamage(state => [<span key={state.length} className="battleText"><b>-{battle.takeDamage}</b></span>, ...state]);
+              setTakeDamage(state => [<b key={state.length} className="battleText">&nbsp;-{battle.takeDamage}</b>, ...state]);
             }, 750);
           }
         }
         //If enemy attacked first
         else {
           setPrevPlayer(battle.player);
-          setTakeDamage(state => [<span key={state.length} className="battleText"><b>-{battle.takeDamage}</b></span>, ...state]);
+          setTakeDamage(state => [<b key={state.length} className="battleText">&nbsp;-{battle.takeDamage}</b>, ...state]);
           if (battle.player.health > 0) {
             timer1 = setTimeout(() => {
               setPrevEnemy(battle.enemy);
-              setSendDamage(state => [<span key={state.length} className="battleText"><b>-{battle.sendDamage}</b></span>, ...state]);
+              setSendDamage(state => [<b key={state.length} className="battleText">&nbsp;-{battle.sendDamage}</b>, ...state]);
             }, 750);
           }
         }
@@ -89,29 +89,31 @@ function Battle() {
     <div className="container">
       <div className="row">
         <div className="col-12 mx-auto">
-          <div className="row">
-            <div className="col-2 mx-auto">
-              <b>Name:</b> {prevPlayer.name}<br/>
-              <b>Level:</b> {prevPlayer.level}<br/>
-              <b>Damage:</b> {prevPlayer.damageMin}-{prevPlayer.damageMax}<br/>
-              <b>Health:</b> {prevPlayer.health}/{prevPlayer.maxHealth} {takeDamage[0]}
-              <span className="progress" style={{width: "150px"}}>
-                <span className="progress-bar bg-success" style={{width: `${(prevPlayer.health / prevPlayer.maxHealth) * 100}%`}}></span>
+          <div className="row justify-content-center mb-3">
+            <div className="col-3 me-2 card p-3">
+              <h4>{prevPlayer.name}</h4>
+              <p className="mb-1"><b>Level:</b> {prevPlayer.level}</p>
+              <p className="mb-1"><b>Damage:</b> {prevPlayer.stats.strength}-{prevPlayer.stats.strength * 2}</p>
+              <p className="mb-1"><b>Health:</b> {prevPlayer.health}/{prevPlayer.stats.vitality * 5}</p>
+              <span className="progress" style={{overflow: "visible", position: "relative", width: "80%", height: "1.2rem"}}>
+                <span className="progress-bar" style={{backgroundColor: "green", width: `${(prevPlayer.health / (prevPlayer.stats.vitality * 5)) * 100}%`}}></span>
+                <span className="battleSpan" style={{width: `calc(${(prevPlayer.health / (prevPlayer.stats.vitality * 5)) * 100}%)`}}>{takeDamage[0]}</span>
               </span>
             </div>
-            <div className="col-2 mx-auto">
-              <b>Name:</b> {battle.enemy.name}<br/>
-              <b>Level:</b> {battle.enemy.level}<br/>
-              <b>Damage:</b> {battle.enemy.damageMin}-{battle.enemy.damageMax}<br/>
-              <b>Health:</b> {prevEnemy.health}/{battle.enemy.maxHealth} {sendDamage[0]}
-              <span className="progress" style={{width: "150px"}}>
-                <span className="progress-bar bg-success" style={{width: `${(prevEnemy.health / battle.enemy.maxHealth) * 100}%`}}></span>
+            <div className="col-3 ms-2 card p-3">
+              <h4>{battle.enemy.name}</h4>
+              <p className="mb-1"><b>Level:</b> {battle.enemy.level}</p>
+              <p className="mb-1"><b>Damage:</b> {battle.enemy.stats.strength}-{battle.enemy.stats.strength * 2}</p>
+              <p className="mb-1"><b>Health:</b> {prevEnemy.health}/{battle.enemy.stats.vitality * 5}</p>
+              <span className="progress" style={{overflow: "visible", position: "relative", width: "80%", height: "1.2rem"}}>
+                <span className="progress-bar" style={{backgroundColor: "green", width: `${(prevEnemy.health / (prevEnemy.stats.vitality * 5)) * 100}%`}}></span>
+                <span className="battleSpan" style={{width: `calc(${(prevEnemy.health / (prevEnemy.stats.vitality * 5)) * 100}%)`}}>{sendDamage[0]}</span>
               </span>
             </div>
           </div>
           <div className="row">
             <div className="col-3 d-grid mx-auto">
-              <button onClick={onAttack} disabled={attacking ? true : false} className="btn btn-primary">
+              <button onClick={onAttack} disabled={attacking ? true : false} className="btn btn-main">
                 Attack
               </button>
             </div>

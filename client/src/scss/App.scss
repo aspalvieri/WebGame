@@ -1,6 +1,15 @@
-$navcolor: rgba(192, 192, 192, 0.9);
-$footcolor: rgb(128, 128, 128);
+$navcolor: rgb(236, 199, 149);
+$footcolor: rgb(194, 156, 107);
 $containerSize: 1024px;
+$backgroundColor: rgb(243, 228, 192);
+$containerColor: rgb(240, 207, 135);
+$columnColor: rgb(224, 190, 115);
+//$accentColor: rgba(222, 184, 135, 0.5);
+$accentColor: rgba(255, 230, 119, 0.25);
+
+body {
+	background-color: $backgroundColor;
+}
 
 .App {
   display: flex;
@@ -8,17 +17,68 @@ $containerSize: 1024px;
   flex-direction: column;
 
   .container {
-    margin-top: 100px;
+		background-color: $containerColor;
+    margin-top: 80px;
 		min-width: $containerSize;
 		width: $containerSize;
+		padding: 1rem;
 		@media screen and (max-width: 991px) {
-				margin-top: 80px;
+				margin-top: 64px;
 		}
   }
 
-	footer {
+	.row {
+		background-color: $columnColor;
+		margin-left: 0;
+		margin-right: 0;
+		padding: 1rem;
+	}
+
+	.card {
+		background-color: $accentColor;
+	}
+
+	.battleText {
+		color: red;
+		position: absolute;
+		left: 100%;
+		animation: fadeOut 0.25s linear 0.5s forwards;
+	}
+	.battleSpan {
+		width: 100%;
+		transition: width 0.6s ease;
+		position: absolute;
+	}
+	.progress-bar {
+		border-radius: 0.25rem;
+	}
+	.progress {
+		background-color:rgba(230, 230, 230, 0.75);
+	}
+
+	@keyframes fadeOut {
+		0% {opacity: 1;}
+		100% {opacity: 0;} 
+	}
+
+	.btn-main {
+		color: black;
+		font-weight: 500;
+		background-color: rgb(218, 168, 77);
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		&:hover {
+			background-color: rgb(199, 150, 60);
+		}
+		&:active {
+			background-color: rgb(173, 131, 52);
+		}
+		&:focus {
+			box-shadow: none;
+		}
+	}
+
+ 	footer {
 		background-color: $footcolor;
-		color: white;
 		width: 100%;
 		border-top: 2px solid black;
 		text-align: center;
@@ -28,16 +88,6 @@ $containerSize: 1024px;
 			width: $containerSize;
 		}
 	}
-
-	.battleText {
-		color: red;
-		animation: fadeOut 0.25s linear 0.5s forwards;
-	}
-
-	@keyframes fadeOut {
-		0% {opacity: 1;}
-		100% {opacity: 0;} 
- } 
 }
 
 //NAVIGATION CSS
@@ -62,7 +112,7 @@ $containerSize: 1024px;
 		background-color: $navcolor !important;
 		font-weight: bold;
 		font-size: 1.25rem;
-		padding: 0.5rem 1.5rem;
+		padding: 0.5rem 2.5rem;
 		.nav-item {
 			padding: 0.5rem 0;
 			.nav-link, .fab {

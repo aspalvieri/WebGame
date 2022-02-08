@@ -10,11 +10,13 @@ exports.addBattle = (player) => {
     player: {
       name: player.name,
       level: player.character.level,
-      speed: player.character.speed,
-      damageMin: player.character.damageMin,
-      damageMax: player.character.damageMax,
       health: player.character.health,
-      maxHealth: player.character.maxHealth,
+      stats: {
+        vitality: player.character.stats.vitality,
+        strength: player.character.stats.strength,
+        speed: player.character.stats.speed,
+        points: player.character.stats.points
+      },
       exp: player.character.exp,
       expMax: player.character.expMax,
       gold: player.character.gold
@@ -39,14 +41,14 @@ exports.attack = (id) => {
   if (!battle) {
     return [true, false];
   }
-  let playerDamage = getRndInteger(battle.player.damageMin, battle.player.damageMax);
-  let enemyDamage = getRndInteger(battle.enemy.damageMin, battle.enemy.damageMax);
-  let speedRoll = getRndInteger(1, (battle.player.speed + battle.enemy.speed));
+  let playerDamage = getRndInteger(battle.player.stats.strength, battle.player.stats.strength * 2);
+  let enemyDamage = getRndInteger(battle.enemy.stats.strength, battle.enemy.stats.strength * 2);
+  let speedRoll = getRndInteger(1, (battle.player.stats.speed + battle.enemy.stats.speed));
   let info = {};
   battle.takeDamage = enemyDamage;
   battle.sendDamage = playerDamage;
   //Player hits first
-  if (battle.player.speed >= speedRoll) {
+  if (battle.player.stats.speed >= speedRoll) {
     battle.first = "Player";
     battle.enemy.health -= playerDamage;
     if (battle.enemy.health <= 0) {

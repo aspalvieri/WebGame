@@ -22,12 +22,12 @@ function Landing() {
           </p>
           <div className="row justify-content-center">
             <div className="col-3">
-              <Link to="/register" className="btn btn-lg btn-primary">
+              <Link to="/register" className="btn btn-lg btn-main">
                 Register
               </Link>
             </div>
             <div className="col-3">
-              <Link to="/login" className="btn btn-lg btn-outline-primary">
+              <Link to="/login" className="btn btn-lg btn-main">
                 Login
               </Link>
             </div>

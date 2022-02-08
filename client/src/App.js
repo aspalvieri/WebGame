@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -20,6 +20,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ScrollToTop from "./components/modules/ScrollToTop";
 import Battle from "./components/dashboard/Battle";
 import BattleInfo from "./components/dashboard/BattleInfo";
+import Loading from "./components/modules/Loading";
 import { config } from "./utils/configs";
 
 //Importing fontawesome, bootstrap, and custom css
@@ -34,10 +35,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 const { store, persistor } = buildStore();
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (localStorage.jwtToken) {
       //Check for version mismatch
       if (!localStorage.VERSION || localStorage.VERSION !== config.VERSION) {
+        setLoading(false);
         localStorage.removeItem("VERSION");
         store.dispatch(allActions.authActions.logoutUser(persistor));
         window.location.href = "./login";
@@ -49,15 +53,32 @@ function App() {
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
+        setLoading(false);
         store.dispatch(allActions.authActions.logoutUser(persistor));
         window.location.href = "./login";
       }
+      //Fetch character
+      new Promise(async (resolve) => {
+        await store.dispatch(allActions.charActions.updateCharacter());
+        resolve();
+      }).then(() => {
+        setLoading(false);
+      });
     }
     //If the user doesn't have a token, purge persistor just to be safe
     else {
       persistor.purge();
+      setLoading(false);
     }
   }, []);
+
+  if (loading) {
+    return (
+      <div className="App">
+        <Loading width="15em" height="15em" />
+      </div>
+    )
+  }
 
   return (
     <Provider store={store}>
