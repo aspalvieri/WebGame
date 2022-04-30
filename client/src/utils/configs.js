@@ -6,7 +6,7 @@ const configs = {
     VERSION
   },
   production: {
-    SERVER_URI: 'https://aspalwebgame.herokuapp.com',
+    SERVER_URI: 'https://api-dot-game-aspalvieri.uc.r.appspot.com',
     VERSION
   },
 };

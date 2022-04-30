@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-const sslRedirect = require('heroku-ssl-redirect').default;
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -8,16 +7,17 @@ const passport = require("passport");
 const cors = require("cors");
 const path = require("path");
 
-const users = require("./routes/users");
+require("./routes/users");
+require("./routes/characters");
 
 const app = express();
 
-//Heroku HTTPS redirect
-app.use(sslRedirect());
-
 var allowedOrigins = [
   "http://localhost:3000",
-  "https://aspalwebgame.herokuapp.com"
+  "https://game-aspalvieri.uc.r.appspot.com",
+  "https://aspalvieri.com",
+  "https://www.aspalvieri.com",
+  "https://game.aspalvieri.com"
 ];
 app.use(cors({
   origin: function(origin, callback){

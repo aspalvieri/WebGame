@@ -24,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "yarn build && gcloud app deploy --project game-aspalvieri --quiet",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
