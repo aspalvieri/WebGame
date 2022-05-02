@@ -58,33 +58,33 @@ function Register() {
           <form noValidate onSubmit={onSubmit}>
             <div className="row justify-content-center">
               <div className="col-6 card p-3">
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-4-5 home-input-form">
                   <label htmlFor="name" className="form-label my-1"><b>Name</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.name })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange}
                     error={errors.name} autoComplete="name" id="name" type="text" />
-                  <span className="text-danger"><small>{errors.name}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.name}</small></span>
                 </div>
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-4-5 home-input-form">
                   <label htmlFor="email" className="form-label my-1"><b>Email</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.email })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange}
                     error={errors.email} autoComplete="email" id="email" type="email" />
-                  <span className="text-danger"><small>{errors.email}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.email}</small></span>
                 </div>
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-4-5 home-input-form">
                   <label htmlFor="password" className="form-label my-1"><b>Password</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.password })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange}
                     error={errors.password} autoComplete="current-password" id="password" type="password" />
-                  <span className="text-danger"><small>{errors.password}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.password}</small></span>
                 </div>
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-5 home-input-form">
                   <label htmlFor="password2" className="form-label my-1"><b>Confirm Password</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.password2 })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange}
                     error={errors.password2} autoComplete="new-password" id="password2" type="password" />
-                  <span className="text-danger"><small>{errors.password2}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.password2}</small></span>
                 </div>
                 <div className="col-6 offset-3 d-grid">
                   <button disabled={load ? "disabled" : ""} type="submit" className="btn btn-main">

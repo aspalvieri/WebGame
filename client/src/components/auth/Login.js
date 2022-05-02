@@ -71,19 +71,19 @@ function Login(props) {
           <form noValidate onSubmit={onSubmit}>
             <div className="row justify-content-center">
               <div className="col-6 card p-3">
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-4-5 home-input-form">
                   <label htmlFor="email" className="form-label my-1"><b>Email</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.email || errors.emailnotfound })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange} 
                     error={errors.email} autoComplete="email" id="email" type="email" />
-                  <span className="text-danger"><small>{errors.email}{errors.emailnotfound}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.email}{errors.emailnotfound}</small></span>
                 </div>
-                <div className="col-12 mb-4">
+                <div className="col-12 mb-5 home-input-form">
                   <label htmlFor="password" className="form-label my-1"><b>Password</b></label>
                   <input className={classnames("form-control", { "is-invalid": errors.password || errors.passwordincorrect })}
                     disabled={load ? "disabled" : ""} onChange={handleInputChange}
                     error={errors.password} autoComplete="current-password" id="password" type="password" />
-                  <span className="text-danger"><small>{errors.password}{errors.passwordincorrect}</small></span>
+                  <span className="text-danger home-input-error"><small>{errors.password}{errors.passwordincorrect}</small></span>
                 </div>
                 <div className="col-6 offset-3 d-grid">
                   <button disabled={load ? "disabled" : ""} type="submit" className="btn btn-main">
