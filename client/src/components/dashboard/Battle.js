@@ -90,7 +90,7 @@ function Battle() {
       <div className="row">
         <div className="col-12 mx-auto">
           <div className="row justify-content-center mb-3">
-            <div className="col-3 me-2 card p-3">
+            <div className="col-12 col-sm-5 col-md-4 col-lg-3 mb-3 mb-sm-0 me-0 me-sm-3 card p-3">
               <h4>{prevPlayer.name}</h4>
               <p className="mb-1"><b>Level:</b> {prevPlayer.level}</p>
               <p className="mb-1"><b>Damage:</b> {prevPlayer.stats.strength}-{prevPlayer.stats.strength * 2}</p>
@@ -100,7 +100,7 @@ function Battle() {
                 <span className="battleSpan" style={{width: `calc(${(prevPlayer.health / (prevPlayer.stats.vitality * 5)) * 100}%)`}}>{takeDamage[0]}</span>
               </span>
             </div>
-            <div className="col-3 ms-2 card p-3">
+            <div className="col-12 col-sm-5 col-md-4 col-lg-3 mt-3 mt-sm-0 ms-0 ms-sm-3 card p-3">
               <h4>{battle.enemy.name}</h4>
               <p className="mb-1"><b>Level:</b> {battle.enemy.level}</p>
               <p className="mb-1"><b>Damage:</b> {battle.enemy.stats.strength}-{battle.enemy.stats.strength * 2}</p>
@@ -112,7 +112,7 @@ function Battle() {
             </div>
           </div>
           <div className="row">
-            <div className="col-3 d-grid mx-auto">
+            <div className="col-6 col-md-4 col-lg-3 d-grid mx-auto">
               <button onClick={onAttack} disabled={attacking ? true : false} className="btn btn-main">
                 Attack
               </button>

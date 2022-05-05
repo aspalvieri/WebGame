@@ -25,7 +25,7 @@ function Dashboard() {
   return (
     <div className="container">
       <div className="row justify-content-center mb-3">
-        <div className="col-3 me-2 p-3 card">
+        <div className="col-12 col-sm-5 col-md-4 col-lg-3 mb-2 mb-sm-0 me-0 me-sm-2 card p-3">
           <h4><b>{user.name}'s</b> Info:</h4>
           <p className="mb-0">
             <b>Level:</b> {user.character.level}<br/>
@@ -42,7 +42,7 @@ function Dashboard() {
             </span>
           </p>
         </div>
-        <div className="col-3 ms-2 p-3 card">
+        <div className="col-12 col-sm-5 col-md-4 col-lg-3 mt-2 mt-sm-0 ms-0 ms-sm-2 card p-3">
           <h4><b>{user.name}'s</b> Stats:</h4>
             <p>
               <b>Vitality:</b> {user.character.stats.vitality}
@@ -61,7 +61,7 @@ function Dashboard() {
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-2 d-grid text-center">
+        <div className="col-7 col-sm-5 col-md-4 col-lg-3 d-grid text-center">
           <button onClick={findBattle} className="btn btn-main">
             Find Battle
           </button>

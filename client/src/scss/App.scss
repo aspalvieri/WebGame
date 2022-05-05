@@ -13,8 +13,7 @@ body {
   .container {
 		background-color: $containerColor;
     //margin-top: 80px;
-		min-width: $containerSize;
-		width: $containerSize;
+		max-width: $containerSize;
 		padding: 1rem;
 		@media screen and (max-width: 991px) {
 				margin-top: 64px;
@@ -94,9 +93,6 @@ body {
 		text-align: center;
 		padding: 15px;
 		margin-top: auto;
-		@media screen and (max-width: $containerSize) {
-			width: $containerSize;
-		}
 	}
 }
 
